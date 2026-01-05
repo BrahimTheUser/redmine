@@ -5,14 +5,15 @@ services:
     image: sameersbn/redmine:latest
     restart: always
 
+    # Railway dynamically assigns a port
     ports:
       - "${PORT}:3000"
 
     environment:
-      # Run in development instead of production
+      # Run in development mode (no secret_key_base needed)
       RAILS_ENV: development
 
-      # Database (Railway MySQL Plugin)
+      # Database config (Railway MySQL plugin injects these)
       DB_ADAPTER: mysql2
       DB_HOST: ${MYSQLHOST}
       DB_PORT: ${MYSQLPORT}
@@ -20,5 +21,6 @@ services:
       DB_USER: ${MYSQLUSER}
       DB_PASS: ${MYSQLPASSWORD}
 
-      # Optional: relative URL root
+      # Optional Redmine settings
       REDMINE_RELATIVE_URL_ROOT: ""
+      REDMINE_LANG: en
