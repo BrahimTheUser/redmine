@@ -1,4 +1,4 @@
-FROM sameersbn/redmine:latest
+FROM redmine:latest
 
 EXPOSE 3000
 
