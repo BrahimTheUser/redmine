@@ -1,6 +1,8 @@
 FROM redmine:latest
 
+ENV RAILS_ENV=development
+
 EXPOSE 3000
 
-# Wait a few seconds to allow Railway MySQL to initialize, then start Redmine
-CMD ["bash", "-c", "sleep 6 && /sbin/entrypoint.sh app:start"]
+# Wait for Railway MySQL, then start Rails
+CMD ["bash", "-c", "sleep 10 && bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
