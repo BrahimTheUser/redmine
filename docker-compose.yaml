@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   redmine:
-    image: sameersbn/redmine:latest
+    image: redmine:latest
     restart: always
 
     # Railway dynamically assigns a port
@@ -14,13 +14,12 @@ services:
       RAILS_ENV: development
 
       # Database config (Railway MySQL plugin injects these)
-      DB_ADAPTER: mysql2
-      DB_HOST: ${MYSQLHOST}
-      DB_PORT: ${MYSQLPORT}
-      DB_NAME: ${MYSQLDATABASE}
-      DB_USER: ${MYSQLUSER}
-      DB_PASS: ${MYSQLPASSWORD}
+      # DB_ADAPTER: mysql2
+      REDMINE_DB_MYSQL: ${MYSQLHOST}
+      REDMINE_DB_DATABASE: ${MYSQLDATABASE}
+      REDMINE_DB_USERNAME: ${MYSQLUSER}
+      REDMINE_DB_PASSWORD: ${MYSQLPASSWORD}
 
       # Optional Redmine settings
-      REDMINE_RELATIVE_URL_ROOT: ""
-      REDMINE_LANG: en
+      # REDMINE_RELATIVE_URL_ROOT: ""
+      # REDMINE_LANG: en
