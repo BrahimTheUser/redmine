@@ -1,0 +1,72 @@
+version: '3.1'
+
+services:
+  nginx:
+    # we use the latest of nginx as base
+    image: nginx:latest
+    restart: always
+    # we expose port 80 and 443 to the public as our reverse proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # we link volume from host for nginx configuration
+      - './nginx.conf:/etc/nginx/conf.d/nginx.conf'
+      # we link volume from host for nginx certs
+      - './certs:/etc/nginx/certs'
+      # we link also timezone from the host
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/etc/timezone:/etc/timezone:ro'
+    depends_on:
+      # we will wait until server redmine is ready
+      - redmine
+  redmine:
+    # we use redmine from dockerhub as base
+    image: redmine
+    restart: always
+    volumes:
+      # we link redmine data to our local storage, so it will persistent when
+      # the service redmine restarted
+      - 'redmine_data:/usr/src/redmine/files'
+      # we link redmine plugin also from the host
+      - '/home/bkn/redmine_plugins:/usr/src/redmine/plugins'
+      # we link also timezone from the host
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/etc/timezone:/etc/timezone:ro'
+    # we don't expose port on this service because nginx service will do
+    # default port redmine expose internally is 3000
+    #ports:
+      #- 3000:3000
+      #- 444:3000
+    environment:
+      # we create some env for redmine
+      REDMINE_DB_MYSQL: db
+      REDMINE_DB_PORT: 3306
+      REDMINE_DB_DATABASE: redmine_db
+      REDMINE_DB_USERNAME: redmine
+      REDMINE_DB_PASSWORD: my_p@ssword
+      REDMINE_SECRET_KEY_BASE: G75eddsecretkey
+    # we will wait until db service is ready
+    depends_on:
+      - db
+  db:
+    # we use mysql server for redmine database
+    image: mysql:8.0
+    restart: always
+    volumes:
+      # we also link the database storage with volume we created below
+      - 'mysql_data:/var/lib/mysql'
+    environment:
+      # we create some env for mysql
+      MYSQL_USER: redmine
+      MYSQL_PASSWORD: my_p@ssword
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: JRFFHT534rth4u3!@#
+      MYSQL_DATABASE: redmine_db
+
+volumes:
+  # we create two volume used by redmine and our database
+  mysql_data:
+    driver: local
+  redmine_data:
+    driver: local
