@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  redmine:
+    image: redmine:latest
+    restart: always
+
+    environment:
+      REDMINE_DB_MYSQL: ${MYSQLHOST}
+      REDMINE_DB_PORT: ${MYSQLPORT}
+      REDMINE_DB_DATABASE: ${MYSQLDATABASE}
+      REDMINE_DB_USERNAME: ${MYSQLUSER}
+      REDMINE_DB_PASSWORD: ${MYSQLPASSWORD}
+      REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE}
+
+      # Railway requires listening on $PORT
+      REDMINE_PORT: ${PORT}
+
+    ports:
+      - "${PORT}:${PORT}"
+
+    volumes:
+      - redmine_data:/usr/src/redmine/files
+
+volumes:
+  redmine_data:
