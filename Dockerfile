@@ -2,5 +2,5 @@ FROM sameersbn/redmine:latest
 
 EXPOSE 3000
 
-# Sleep 5s to allow Railway MySQL to be ready
-CMD ["bash", "-c", "sleep 5 && /sbin/entrypoint.sh app:start"]
+# Wait a few seconds to allow Railway MySQL to initialize, then start Redmine
+CMD ["bash", "-c", "sleep 6 && /sbin/entrypoint.sh app:start"]
