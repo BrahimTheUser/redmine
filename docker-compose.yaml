@@ -7,11 +7,12 @@ services:
 
     # Railway dynamically assigns a port
     ports:
-      - "${PORT}:3000"
+      - "${PORT}:${PORT}"
 
     environment:
       # Run in development mode (no secret_key_base needed)
-      RAILS_ENV: development
+      PORT: ${PORT}
+      RAILS_ENV: production
 
       # Database config (Railway MySQL plugin injects these)
       # DB_ADAPTER: mysql2
