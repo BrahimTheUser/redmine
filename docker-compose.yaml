@@ -7,7 +7,7 @@ services:
 
     # Railway dynamically assigns a port
     ports:
-      - "${PORT}:8080"
+      - "${PORT}:3000"
 
     environment:
       # Run in development mode (no secret_key_base needed)
