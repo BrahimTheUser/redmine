@@ -1,4 +1,4 @@
-FROM redmine:latest
+FROM sameersbn/redmine:latest
 
 # Railway provides PORT, Redmine listens on 3000 by default
 ENV RAILWAY_ENV=true
