@@ -2,16 +2,25 @@ version: "3.8"
 
 services:
   redmine:
-    build: .
+    image: sameersbn/redmine:latest
     restart: always
-
-    environment:
-      REDMINE_DB_MYSQL: ${MYSQLHOST}
-      REDMINE_DB_PORT: ${MYSQLPORT}
-      REDMINE_DB_DATABASE: ${MYSQLDATABASE}
-      REDMINE_DB_USERNAME: ${MYSQLUSER}
-      REDMINE_DB_PASSWORD: ${MYSQLPASSWORD}
-      REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE}
 
     ports:
       - "${PORT}:3000"
+
+    environment:
+      # Rails / Redmine
+      RAILS_ENV: production
+      SECRET_KEY_BASE: "a8f4c2e1d9b7a6c5f3e2d1c9b8a7f6e5d4c3b2a1908f7e6d5c4b3a2f1e0"
+
+      # Database (Railway MySQL Plugin)
+      DB_ADAPTER: mysql2
+      DB_HOST: ${MYSQLHOST}
+      DB_PORT: ${MYSQLPORT}
+      DB_NAME: ${MYSQLDATABASE}
+      DB_USER: ${MYSQLUSER}
+      DB_PASS: ${MYSQLPASSWORD}
+
+      # Optional but recommended
+      REDMINE_PORT: 3000
+      REDMINE_RELATIVE_URL_ROOT: ""
