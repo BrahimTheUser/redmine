@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   redmine:
-    image: redmine:latest
+    build: .
     restart: always
 
     environment:
@@ -13,14 +13,5 @@ services:
       REDMINE_DB_PASSWORD: ${MYSQLPASSWORD}
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE}
 
-      # Railway requires listening on $PORT
-      REDMINE_PORT: ${PORT}
-
     ports:
-      - "${PORT}:${PORT}"
-
-    volumes:
-      - redmine_data:/usr/src/redmine/files
-
-volumes:
-  redmine_data:
+      - "${PORT}:3000"
